@@ -11,8 +11,8 @@ TagManager:
   - Enemy
   - Water
   - UI
-  - 
-  - 
+  - Ground
+  - Path
   - 
   - 
   - 
@@ -40,6 +40,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Front
+    uniqueID: 3766058653
     locked: 0
   m_RenderingLayers:
   - Default

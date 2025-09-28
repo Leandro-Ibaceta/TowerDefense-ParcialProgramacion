@@ -8,6 +8,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
 {
     [SerializeField] protected int health;
     [SerializeField] protected float moveSpeed;
+    [SerializeField] protected int damage;
     private Transform target;
     private EnemyMovement enemyMovement;
     private int index = 0;
@@ -28,6 +29,12 @@ public abstract class Enemy : MonoBehaviour, IDamageable
 
     private void Update()
     {
+        if(!IsAlive())
+        {
+            GameManager.instance.EnemyKilled++;
+            Destroy(this.gameObject); 
+            return;
+        }
         enemyMovement.MoveEnemy(target.position, moveSpeed);
 
         if (CheckForDistance() <= 0.5f)
@@ -46,5 +53,19 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     {
         float distance = Vector2.Distance(target.position, transform.position);
         return distance;
+    }
+
+    private bool IsAlive()
+    {
+        return health > 0;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("hit");
+        if (collision.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
+        {
+            damageable.Damage(damage);
+        }
     }
 }
